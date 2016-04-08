@@ -11,7 +11,7 @@ public class ListActivity extends BaseActivity {
 
     @Override
     protected boolean isSwipeToDismissEnabled() {
-        return true;
+        return false;
     }
 
     @Override

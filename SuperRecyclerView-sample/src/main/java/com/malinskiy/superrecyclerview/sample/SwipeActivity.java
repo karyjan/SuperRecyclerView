@@ -11,21 +11,22 @@ import android.widget.Toast;
 
 import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
+import com.malinskiy.superrecyclerview.SwipeRecyclerView;
 import com.malinskiy.superrecyclerview.swipe.SwipeItemManagerInterface;
 
 import java.util.ArrayList;
 
 public class SwipeActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener, OnMoreListener {
 
-    private SuperRecyclerView mRecycler;
+    private SwipeRecyclerView mRecycler;
     private SwipeAdapter      mAdapter;
     private Handler           mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vertical_sample);
-        mRecycler = (SuperRecyclerView) findViewById(R.id.list);
+        setContentView(R.layout.activity_swipe_sample);
+        mRecycler = (SwipeRecyclerView) findViewById(R.id.list);
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
 
         ArrayList<String> list = new ArrayList<>();

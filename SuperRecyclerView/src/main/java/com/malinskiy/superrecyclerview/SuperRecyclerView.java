@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
 
-import com.malinskiy.superrecyclerview.swipe.SwipeDismissRecyclerViewTouchListener;
 import com.malinskiy.superrecyclerview.util.FloatUtil;
 
 public class SuperRecyclerView extends FrameLayout {
@@ -42,7 +41,6 @@ public class SuperRecyclerView extends FrameLayout {
     protected LAYOUT_MANAGER_TYPE layoutManagerType;
 
     protected RecyclerView.OnScrollListener mInternalOnScrollListener;
-    private RecyclerView.OnScrollListener mSwipeDismissScrollListener;
     protected RecyclerView.OnScrollListener mExternalOnScrollListener;
 
     protected OnMoreListener mOnMoreListener;
@@ -149,8 +147,6 @@ public class SuperRecyclerView extends FrameLayout {
 
                 if (mExternalOnScrollListener != null)
                     mExternalOnScrollListener.onScrolled(recyclerView, dx, dy);
-                if (mSwipeDismissScrollListener != null)
-                    mSwipeDismissScrollListener.onScrolled(recyclerView, dx, dy);
             }
 
             @Override
@@ -158,8 +154,6 @@ public class SuperRecyclerView extends FrameLayout {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (mExternalOnScrollListener != null)
                     mExternalOnScrollListener.onScrollStateChanged(recyclerView, newState);
-                if (mSwipeDismissScrollListener != null)
-                    mSwipeDismissScrollListener.onScrollStateChanged(recyclerView, newState);
             }
         };
         mRecycler.addOnScrollListener(mInternalOnScrollListener);
@@ -175,7 +169,7 @@ public class SuperRecyclerView extends FrameLayout {
         }
     }
 
-    private void processOnMore() {
+    protected void processOnMore() {
         RecyclerView.LayoutManager layoutManager = mRecycler.getLayoutManager();
         int lastVisibleItemPosition = getLastVisibleItemPosition(layoutManager);
         int visibleItemCount = layoutManager.getChildCount();
@@ -335,23 +329,6 @@ public class SuperRecyclerView extends FrameLayout {
      */
     public void swapAdapter(RecyclerView.Adapter adapter, boolean removeAndRecycleExistingViews) {
         setAdapterInternal(adapter, true, removeAndRecycleExistingViews);
-    }
-
-    public void setupSwipeToDismiss(final SwipeDismissRecyclerViewTouchListener.DismissCallbacks listener) {
-        SwipeDismissRecyclerViewTouchListener touchListener =
-                new SwipeDismissRecyclerViewTouchListener(mRecycler, new SwipeDismissRecyclerViewTouchListener.DismissCallbacks() {
-                    @Override
-                    public boolean canDismiss(int position) {
-                        return listener.canDismiss(position);
-                    }
-
-                    @Override
-                    public void onDismiss(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                        listener.onDismiss(recyclerView, reverseSortedPositions);
-                    }
-                });
-        mSwipeDismissScrollListener = touchListener.makeScrollListener();
-        mRecycler.setOnTouchListener(touchListener);
     }
 
     /**

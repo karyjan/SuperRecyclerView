@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public abstract class BaseActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener, OnMoreListener, SwipeDismissRecyclerViewTouchListener.DismissCallbacks {
 
     private SuperRecyclerView          mRecycler;
-    private StringListAdapter          mAdapter;
+    private StringAdapter          mAdapter;
     private SparseItemRemoveAnimator   mSparseAnimator;
     private RecyclerView.LayoutManager mLayoutManager;
     private Handler                    mHandler;
@@ -28,8 +28,7 @@ public abstract class BaseActivity extends Activity implements SwipeRefreshLayou
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
 
-        ArrayList<String> list = new ArrayList<>();
-        mAdapter = new StringListAdapter(list);
+        mAdapter = new StringAdapter();
 
         mRecycler = (SuperRecyclerView) findViewById(R.id.list);
         mLayoutManager = getLayoutManager();
@@ -38,7 +37,7 @@ public abstract class BaseActivity extends Activity implements SwipeRefreshLayou
 
         boolean dismissEnabled = isSwipeToDismissEnabled();
         if (dismissEnabled) {
-            mRecycler.setupSwipeToDismiss(this);
+        //    mRecycler.setupSwipeToDismiss(this);
             mSparseAnimator = new SparseItemRemoveAnimator();
             mRecycler.getRecyclerView().setItemAnimator(mSparseAnimator);
         }
@@ -70,6 +69,7 @@ public abstract class BaseActivity extends Activity implements SwipeRefreshLayou
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
                         mAdapter.addAll(new String[]{"More stuff", "More stuff", "More stuff"});
                     }
                 });
